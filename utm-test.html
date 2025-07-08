@@ -1,0 +1,169 @@
+<!--
+THe problem:
+
+1) UTM parameters only exist in the URL of the first page the user lands on.
+
+2) If the user clicks around before submitting a form, that data is lost, unless we store it
+
+3) Can’t store data without consent, because of CookieYes, would be very bad
+
+4) The form (Marketo) is embedded and not native to WordPress, so it must be accessed via JS
+
+5) Marketo sends leads to Salesforce, so we must inject data into fields Marketo will pass along.
+
+
+This method will basically allow us to use UTM parameter pass-through to persist the original source data across internal pages before the user consents to cookies. The query string will stay on the url in the browser regardless of what page the user ends up on, and then be removed once the user either accepts or declines cookies
+
+fake utm query paramater to add to the end of the url for testing: 
+
+?utm_source=google&utm_medium=cpc&utm_campaign=summer_sale&gclid=abc123
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>UTM Tracker</title>
+  </head>
+  <body>
+    <h1>UTM Tracker Demo</h1>
+
+    <a href="/contact">Contact Page</a><br />
+    <a href="/about">About Page</a><br /><br />
+
+    <form id="leadForm">
+      <h2>Lead Form</h2>
+      <input type="text" placeholder="Your Name" required /><br /><br />
+
+      <!-- Hidden fields for UTM data -->
+      <input type="hidden" name="utm_source" />
+      <input type="hidden" name="utm_medium" />
+      <input type="hidden" name="utm_campaign" />
+      <input type="hidden" name="utm_term" />
+      <input type="hidden" name="utm_content" />
+      <input type="hidden" name="gclid" />
+
+      <button type="submit">Submit</button>
+    </form>
+
+    <script>
+      // Grab UTM & GCLID from the URL
+      function getUTMParams() {
+        const params = new URLSearchParams(window.location.search);
+        return {
+          utm_source: params.get("utm_source"),
+          utm_medium: params.get("utm_medium"),
+          utm_campaign: params.get("utm_campaign"),
+          utm_term: params.get("utm_term"),
+          utm_content: params.get("utm_content"),
+          gclid: params.get("gclid"),
+        };
+      }
+
+      // Append UTM data to all internal links
+      // function appendUTMToInternalLinks(utm) {
+      //   const links = document.querySelectorAll('a[href^="/"]');
+      //   links.forEach(link => {
+      //     const url = new URL(link.href, window.location.origin);
+      //     for (const key in utm) {
+      //       if (utm[key]) url.searchParams.set(key, utm[key]);
+      //     }
+      //     link.href = url.pathname + url.search;
+      //   });
+      // }
+
+      // Set hidden fields in the form
+      function populateFormFields(data) {
+        const form = document.getElementById("leadForm");
+        if (!form) return;
+        Object.entries(data).forEach(([key, value]) => {
+          const field = form.querySelector(`[name="${key}"]`);
+          if (field) field.value = value || "";
+        });
+      }
+
+      // CookieYes consent check
+      function hasConsent() {
+        return window.CookieYes?.consent?.analytics === true;
+      }
+
+      // Store data after consent
+      function storeUTM(utm) {
+        if (hasConsent()) {
+          localStorage.setItem("leadSourceData", JSON.stringify(utm));
+        }
+      }
+
+      // Main conditional logic
+      (function () {
+        const utm = getUTMParams();
+
+        // 1. Append UTM to internal links
+        //appendUTMToInternalLinks(utm);
+
+        // 2. Handle consent
+        if (hasConsent()) {
+          storeUTM(utm);
+        } else {
+          window.addEventListener("cookieyes_consent_update", () => {
+            if (hasConsent()) storeUTM(utm);
+          });
+        }
+
+        // 3. Load from localStorage or URL
+        const stored = JSON.parse(
+          localStorage.getItem("leadSourceData") || "{}"
+        );
+        const dataToUse = Object.values(utm).some(Boolean) ? utm : stored;
+
+        // 4. Inject UTM into form
+        populateFormFields(dataToUse);
+      })();
+
+      // For demo purposes: alert data from hidden fields
+      document
+        .getElementById("leadForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const formData = new FormData(e.target);
+          const entries = Object.fromEntries(formData.entries());
+          alert("Form submitted with:\n" + JSON.stringify(entries, null, 2));
+        });
+
+      // this removes the UTM code from the url once cookies are accepted or declined
+      function removeUTMFromURL() {
+        const url = new URL(window.location.href);
+        const paramsToRemove = [
+          "utm_source",
+          "utm_medium",
+          "utm_campaign",
+          "utm_term",
+          "utm_content",
+          "gclid",
+        ];
+
+        let changed = false;
+        paramsToRemove.forEach((param) => {
+          if (url.searchParams.has(param)) {
+            url.searchParams.delete(param);
+            changed = true;
+          }
+        });
+
+        if (changed) {
+          window.history.replaceState(
+            {},
+            "",
+            url.pathname + url.search + url.hash
+          );
+        }
+      }
+
+      // Wait for CookieYes consent update to clean up URL
+      window.addEventListener("cookieyes_consent_update", () => {
+        removeUTMFromURL();
+      });
+    </script>
+  </body>
+</html>
