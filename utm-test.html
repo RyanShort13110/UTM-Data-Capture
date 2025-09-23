@@ -386,8 +386,9 @@ fake utm query paramater to add to the end of the url for testing:
 
 
 
-/* cookie test - does basically the same thing but using cookies instead of sessionStorage */
+
 <script>
+// Cookie data storage script - captures UTM data, plugs it into 4 cookies ('iiq_utm_source', 'iiq_utm_medium', 'iiq_utm_campaign', & 'iiq_utm_content'), then plugs the data from those cookies into hidden fields within Marketo forms ONLY IF there isn't any data already within those fields
 (function () {
   // config & cookie variables
   const COOKIE_HOURS = 48;// how long each of the 4 cookies lasts
