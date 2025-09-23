@@ -481,7 +481,7 @@ fake utm query paramater to add to the end of the url for testing:
     return out;
   }
 
-  // Marketo fallback (cookies → hidden fields) should only run when URL has NO UTMs
+  // Marketo fallback (cookies -> hidden fields) should only run when URL has NO UTMs
   function applyCookieUtmsToForm(form) {
     if (hasUtmsInURL()) return;// if URL has UTMs, let marketo handle it - core functionality of marketo
     try {
