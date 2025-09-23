@@ -387,15 +387,12 @@ fake utm query paramater to add to the end of the url for testing:
 
 
 /* cookie test - does basically the same thing but using cookies instead of sessionStorage */
-
 <script>
 (function () {
-  // =========================
-  // Config
-  // =========================
-  const COOKIE_HOURS = 48;      // lifetime for each UTM cookie
+  // config & cookie variables
+  const COOKIE_HOURS = 48;// how long each of the 4 cookies lasts
   const COOKIE_PATH = '/';
-  const COOKIE_DOMAIN = '';     // e.g., '.example.com' for cross-subdomain
+  const COOKIE_DOMAIN = '';// add domain if planning on using for multiple domains or cross-subdomain
 
   const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
   const FIELD_NAMES = {
@@ -405,7 +402,7 @@ fake utm query paramater to add to the end of the url for testing:
     utm_content:  ['utm_content',  'mkto_UTM_Content__c']
   };
 
-  // Map UTM keys -> cookie names
+  // map all the UTM keys -> cookie names
   const COOKIE_NAME_MAP = {
     utm_source:   'iiq_utm_source',
     utm_medium:   'iiq_utm_medium',
@@ -413,9 +410,7 @@ fake utm query paramater to add to the end of the url for testing:
     utm_content:  'iiq_utm_content'
   };
 
-  // =========================
-  // Cookie storage shim
-  // =========================
+  // Cookie storage
   const cookieStorage = {
     setItem: function (name, value, hours = COOKIE_HOURS) {
       try {
@@ -451,9 +446,7 @@ fake utm query paramater to add to the end of the url for testing:
     }
   };
 
-  // =========================
   // URL helpers
-  // =========================
   function hasUtmsInURL() {
     const qs = new URLSearchParams(window.location.search);
     return UTM_KEYS.some(k => qs.has(k));
@@ -465,9 +458,7 @@ fake utm query paramater to add to the end of the url for testing:
     return out;
   }
 
-  // =========================
-  // Cookie helpers
-  // =========================
+  // cookie helpers
   function saveUtms(utms) {
     try {
       Object.entries(utms).forEach(([k, v]) => {
@@ -484,12 +475,9 @@ fake utm query paramater to add to the end of the url for testing:
     return out;
   }
 
-  // =========================
-  // Marketo fallback (cookies → hidden fields)
-  // Only runs when URL has NO UTMs
-  // =========================
+  // Marketo fallback (cookies → hidden fields) should only run when URL has NO UTMs
   function applyCookieUtmsToForm(form) {
-    if (hasUtmsInURL()) return; // if URL has UTMs, let Marketo handle it
+    if (hasUtmsInURL()) return;// if URL has UTMs, let marketo handle it - core functionality of marketo
     try {
       const stored = loadUtms();
       if (!Object.keys(stored).length) return;
@@ -506,7 +494,7 @@ fake utm query paramater to add to the end of the url for testing:
             const existing = (currentVals[fieldName] || (input && input.value) || '').trim();
             const fallback = (stored[utmKey] || '').trim();
             if (!existing && fallback) {
-              updates[fieldName] = fallback; // fill only-empty fields
+              updates[fieldName] = fallback;// fill only the empty fields
             }
             break;
           }
@@ -517,9 +505,7 @@ fake utm query paramater to add to the end of the url for testing:
     } catch (err) { console.warn('[UTM Cookie] Failed to apply UTM data to form:', err); }
   }
 
-  // =========================
-  // Wait for Marketo, then apply cookie fallback if needed
-  // =========================
+  // \wait for Marketo, then apply cookie fallback if needed. should run AFTER marketo has loaded
   (function waitForMkto(maxMs = 10000, step = 200) {
     const ready = !!(window.MktoForms2 && typeof MktoForms2.whenReady === 'function');
     if (ready) {
@@ -534,17 +520,15 @@ fake utm query paramater to add to the end of the url for testing:
     setTimeout(() => waitForMkto(maxMs - step, step), step);
   })();
 
-  // =========================
-  // Init: on any page WITH UTMs, store them (48h)
-  // =========================
+  // Init: on any page WITH UTMs, store them for 48h
   (function init() {
     const urlUtms = getUtmsFromURL();
     if (Object.keys(urlUtms).length) {
-      saveUtms(urlUtms); // write/refresh cookies; Marketo will use URL on this page
+      saveUtms(urlUtms);// write/refresh cookies; Marketo will use URL on this page
     }
   })();
 
-  // Optional: helper for testing
+  // helper for testing
   window.__resetUTMCookies = function () {
     UTM_KEYS.forEach(k => cookieStorage.removeItem(COOKIE_NAME_MAP[k] || k));
     console.log('[UTM Cookie] Cleared all iiq_utm cookies.');
