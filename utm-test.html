@@ -21,6 +21,7 @@ fake utm query paramater to add to the end of the url for testing:
 -->
 
 
+
 <script data-cookieyes="cookieyes-analytics" >
 // Cookie data storage script - captures UTM data, plugs it into 4 cookies ('iiq_utm_source', 'iiq_utm_medium', 'iiq_utm_campaign', & 'iiq_utm_content'), then plugs the data from those cookies into hidden fields within Marketo forms ONLY IF there isn't any data already within those fields
 (function () {
@@ -117,7 +118,7 @@ fake utm query paramater to add to the end of the url for testing:
 
   // Marketo fallback (cookies -> hidden fields) should only run when URL has NO UTMs
   function applyCookieUtmsToForm(form) {
-    if (hasUtmsInURL()) return;// if URL has UTMs, let marketo handle it - core functionality of marketo. that's, like, its whole purpose and stuff
+    if (hasUtmsInURL()) return;// if URL has UTMs, let marketo handle it - core functionality of marketo
     try {
       const stored = loadUtms();
       if (!Object.keys(stored).length) return;
@@ -134,7 +135,7 @@ fake utm query paramater to add to the end of the url for testing:
             const existing = (currentVals[fieldName] || (input && input.value) || '').trim();
             const fallback = (stored[utmKey] || '').trim();
             if (!existing && fallback) {
-              updates[fieldName] = fallback;
+              updates[fieldName] = fallback;// fill only the empty fields
             }
             break;
           }
@@ -150,7 +151,7 @@ fake utm query paramater to add to the end of the url for testing:
     const ready = !!(window.MktoForms2 && typeof MktoForms2.whenReady === 'function');
     if (ready) {
       MktoForms2.whenReady(function (form) {
-        // Optional: debug what fields Marketo exposes
+        // debug what fields Marketo exposes
         // try { console.log('[Mkto] keys:', Object.keys(form.getValues())); } catch (e) {}
         applyCookieUtmsToForm(form);
       });
@@ -160,7 +161,7 @@ fake utm query paramater to add to the end of the url for testing:
     setTimeout(() => waitForMkto(maxMs - step, step), step);
   })();
 
-  // Init: on any page WITH UTMs, store them for 48h
+  // Init: on any page WITH UTMs, store them for 48hours
   (function init() {
     const urlUtms = getUtmsFromURL();
     if (Object.keys(urlUtms).length) {
