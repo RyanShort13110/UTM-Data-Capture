@@ -190,7 +190,7 @@ fake utm query paramater to add to the end of the url for testing:
 <script data-cookieyes="cookieyes-analytics" >
 (function () {
   // config & cookie variables
-  const COOKIE_HOURS = 48;// how long each of the 4 cookies lasts
+  const COOKIE_HOURS = 24;// how long each of the 4 cookies lasts
   const COOKIE_PATH = '/';
   const COOKIE_DOMAIN = '';// add domain if planning on using for multiple domains or cross-subdomain
 
@@ -262,7 +262,7 @@ fake utm query paramater to add to the end of the url for testing:
   }
 
   // cookie helpers
-  // 'k' means 'key', 'v', means 'value'
+  // 'k' means 'key', 'v' means 'value'
   function saveUtms(utms) {
     try {
       Object.entries(utms).forEach(([k, v]) => {
