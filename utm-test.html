@@ -349,7 +349,7 @@ fake utm query paramater to add to the end of the url for testing:
     }
   })();
 
-  // helper for testing
+  // helper for testing, should show which cookies were removed after 24 hrs have passed
   window.__resetUTMCookies = function () {
     UTM_KEYS.forEach(k => cookieStorage.removeItem(COOKIE_NAME_MAP[k] || k));
     console.log('[UTM Cookie] Cleared all iiq_utm cookies.');
