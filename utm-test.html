@@ -23,6 +23,9 @@ fake utm query paramater to add to the end of the url for testing:
 
 <!-- This first verison creates cookies ONLY when a user lands on the site with UTMs in the url. If no UTMs are found within the browser search bar, then no cookies are created. This caused issues with CookieYes not being able to properly detect the cookies in order to block them is a user opts out. -->
 
+
+<!--
+
 <script data-cookieyes="cookieyes-analytics" >
 // Cookie data storage script - captures UTM data, plugs it into 4 cookies ('iiq_utm_source', 'iiq_utm_medium', 'iiq_utm_campaign', & 'iiq_utm_content'), then plugs the data from those cookies into hidden fields within Marketo forms ONLY IF there isn't any data already within those fields
 (function () {
@@ -179,8 +182,10 @@ fake utm query paramater to add to the end of the url for testing:
 })();
 </script>
 
+-->
 
 
+<!-- New Script starts here -->
 
 
 <!-- This version uses a new cookie storage method, and ensures cookies are created on every page load (even if there are no UTMs in the url) so that CookieYes can detect & block them -->
