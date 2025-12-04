@@ -244,6 +244,7 @@ fake utm query paramater to add to the end of the url for testing:
     },
     removeItem: function (name) {
       try {
+      //past date to delete cookie
         const past = 'Thu, 01 Jan 1970 00:00:00 GMT';
         const secure = (location.protocol === 'https:') ? ' Secure;' : '';
         const domain = COOKIE_DOMAIN ? (' domain=' + COOKIE_DOMAIN + ';') : '';
