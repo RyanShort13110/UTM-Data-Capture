@@ -197,7 +197,7 @@ fake utm query paramater to add to the end of the url for testing:
 <script data-cookieyes="cookieyes-analytics" >
 (function () {
   // config & cookie variables
-  const COOKIE_HOURS = 48;// how long each of the 4 cookies lasts
+  const COOKIE_HOURS = 24;// how long each of the 4 cookies lasts
   const COOKIE_PATH = '/';
   const COOKIE_DOMAIN = '';// add domain if planning on using for multiple domains or cross-subdomain
 
@@ -340,7 +340,7 @@ fake utm query paramater to add to the end of the url for testing:
     setTimeout(() => waitForMkto(maxMs - step, step), step);
   })();
 
-  // Init: on any page WITH UTMs, store them for 48hours
+  // Init: on any page WITH UTMs, store them for 24hours
   (function init() {
     ensureUtmCookiesExist();
     const urlUtms = getUtmsFromURL();
