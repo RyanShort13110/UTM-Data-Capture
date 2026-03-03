@@ -21,7 +21,7 @@ fake utm query paramater to add to the end of the url for testing:
 */
 
 
-// This script should be added to the header of the site, and will run on every page. This script is what allows the file to run within the website and we DO NOT need to enqueue the file within functions.php.
+// This script should be added to the header of the site, and will run on every page. This script is what allows the file to run within the website and we DO NOT need to enqueue the file within functions.php
 <script
   data-cookieyes="cookieyes-analytics"
   id="UTM-tracker"
@@ -32,7 +32,7 @@ fake utm query paramater to add to the end of the url for testing:
 
 
 (function () {
-	console.log('Cookie script loaded')
+  // console.log('Cookie script loaded')
   // config & cookie variables
   const COOKIE_HOURS = 24;// how long each of the 4 cookies lasts
   const COOKIE_PATH = '/';
@@ -162,7 +162,7 @@ fake utm query paramater to add to the end of the url for testing:
     } catch (err) { console.warn('[UTM Cookie] Failed to apply UTM data to form:', err); }
   }
 
-  // \wait for Marketo, then apply cookie fallback if needed. should run AFTER marketo has loaded
+  // /wait for Marketo, then apply cookie fallback if needed. should run AFTER marketo has loaded
   (function waitForMkto(maxMs = 10000, step = 200) {
     const ready = !!(window.MktoForms2 && typeof MktoForms2.whenReady === 'function');
     if (ready) {
@@ -177,7 +177,7 @@ fake utm query paramater to add to the end of the url for testing:
     setTimeout(() => waitForMkto(maxMs - step, step), step);
   })();
 
-  // Init: on any page WITH UTMs, store them for 48hours
+  // Init on any page WITH UTMs, store them for 48hours
   (function init() {
     ensureUtmCookiesExist();
     const urlUtms = getUtmsFromURL();
