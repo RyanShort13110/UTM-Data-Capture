@@ -25,6 +25,7 @@ fake utm query paramater to add to the end of the url for testing:
 <script
   data-cookieyes="cookieyes-analytics"
   id="UTM-tracker"
+  type="text/javascript"// we may not need the 'type' attribute, this can cause MIME Type issues
   src="/wp-content/themes/Divi-Child-Theme/js/UTM-tracker.js">
 </script>
 
