@@ -34,9 +34,9 @@ fake utm query paramater to add to the end of the url for testing:
 (function () {
   // console.log('Cookie script loaded')
   // config & cookie variables
-  const COOKIE_HOURS = 24;// how long each of the 4 cookies lasts
+  const COOKIE_HOURS = 24; // how long each of the 4 cookies lasts
   const COOKIE_PATH = '/';
-  const COOKIE_DOMAIN = '';// add domain if planning on using for multiple domains or cross-subdomain
+  const COOKIE_DOMAIN = ''; // add domain if planning on using for multiple domains or cross-subdomain
 
   const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
   const FIELD_NAMES = {
@@ -118,7 +118,7 @@ fake utm query paramater to add to the end of the url for testing:
     const out = {};
     UTM_KEYS.forEach(k => {
       const v = cookieStorage.getItem(COOKIE_NAME_MAP[k] || k);
-      if (v) out[k] = v; // keep keys plain: utm_source, etc.
+      if (v) out[k] = v; // keep keys plain: utm_source, etc
     });
     return out;
   }
