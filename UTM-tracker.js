@@ -14,7 +14,7 @@ The problem:
 
 This method will basically allow us to use UTM parameter pass-through to persist the original source data across internal pages before the user consents to cookies. The query string will stay on the url in the browser regardless of what page the user ends up on, and then be removed once the user either accepts or declines cookies
 
-fake utm query paramater to add to the end of the url for testing: 
+UTM parameters to use for testing: 
 
 ?utm_source=test-source&utm_medium=test-medium&utm_campaign=test-campaign&utm_content=test-content
 
