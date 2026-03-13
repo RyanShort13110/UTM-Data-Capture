@@ -80,7 +80,7 @@ UTM parameters to use for testing:
     },
     removeItem: function (name) {
       try {
-        const past = 'Thu, 01 Jan 1970 00:00:00 GMT';
+        const past = 'Thu, 01 Jan 1970 00:00:00 GMT'; // any date in the past should work
         const secure = (location.protocol === 'https:') ? ' Secure;' : '';
         const domain = COOKIE_DOMAIN ? (' domain=' + COOKIE_DOMAIN + ';') : '';
         document.cookie =
