@@ -192,4 +192,3 @@ UTM parameters to use for testing:
     console.log('[UTM Cookie] Cleared all iiq_utm cookies.');
   };
 })();
-
