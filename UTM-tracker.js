@@ -20,10 +20,11 @@ UTM parameters to use for testing:
 
 
 // This script should be added to the header of the site, and will run on every page. This script is what allows the file to run within the website and we DO NOT need to enqueue the file within functions.php
+// we may not need the 'type' attribute, this can cause MIME Type issues
 <script
   data-cookieyes="cookieyes-analytics"
   id="UTM-tracker"
-  type="text/javascript"// we may not need the 'type' attribute, this can cause MIME Type issues
+  type="text/javascript"
   src="/wp-content/themes/Divi-Child-Theme/js/UTM-tracker.js">
 </script>
 
