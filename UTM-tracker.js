@@ -88,7 +88,7 @@ UTM parameters to use for testing:
       } catch (err) { console.warn('Warning: Failed to removeItem - [UTM-cookie]', name, err); }
     }
   };
-
+  
   // URL helpers
   function hasUtmsInURL() {
     const qs = new URLSearchParams(window.location.search);
