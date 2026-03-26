@@ -1,7 +1,7 @@
 /*
 The problem:
 
-1) UTM parameters only exist in the URL of the first page the user lands on.
+1) UTM parameters only exist in the URL of the first page the user lands on
 
 2) If the user clicks around before submitting a form, that data is lost, unless we store it
 
@@ -9,7 +9,7 @@ The problem:
 
 4) The form (Marketo) is embedded and not native to WordPress, so it must be accessed via JS
 
-5) Marketo sends leads to Salesforce, so we must inject data into fields Marketo will pass along.
+5) Marketo sends leads to Salesforce, so we must inject data into fields Marketo will pass along
 
 
 UTM parameters to use for testing: 
@@ -20,11 +20,10 @@ UTM parameters to use for testing:
 
 
 // This script should be added to the header of the site, and will run on every page. This script is what allows the file to run within the website and we DO NOT need to enqueue the file within functions.php
-// we may not need the 'type' attribute, this can cause MIME Type issues
+// we may not need the 'type' attribute (type="text/javascript"), this can cause MIME Type issues
 <script
   data-cookieyes="cookieyes-analytics"
   id="UTM-tracker"
-  type="text/javascript"
   src="/wp-content/themes/Divi-Child-Theme/js/UTM-tracker.js">
 </script>
 
