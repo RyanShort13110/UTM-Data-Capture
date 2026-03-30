@@ -16,6 +16,10 @@ UTM parameters to use for testing:
 
 ?utm_source=test-source&utm_medium=test-medium&utm_campaign=test-campaign&utm_content=test-content
 
+Cookie Policy page description:
+
+"This cookie is used to help analyze the performance of our online marketing efforts by helping our web analytics tools identify the specific source, medium (e.g., email, social), and campaign name for website traffic."
+
 */
 
 
@@ -116,7 +120,7 @@ UTM parameters to use for testing:
     const out = {};
     UTM_KEYS.forEach(k => {
       const v = cookieStorage.getItem(COOKIE_NAME_MAP[k] || k);
-      if (v) out[k] = v; // keep keys plain: utm_source, etc
+      if (v) out[k] = v; // output the value of the key
     });
     return out;
   }
