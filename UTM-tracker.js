@@ -97,6 +97,8 @@ Cookie Policy page description:
     const qs = new URLSearchParams(window.location.search);
     return UTM_KEYS.some(utmKey => qs.has(utmKey));
   }
+
+  // obtain UTMs from search bar
   function getUtmsFromURL() {
     const qs = new URLSearchParams(window.location.search);
     const out = {};
@@ -164,7 +166,7 @@ Cookie Policy page description:
     } catch (err) { console.warn('[UTM Cookie] Failed to apply UTM data to form:', err); }
   }
 
-  // /wait for Marketo, then apply cookie fallback if needed. should run AFTER marketo has loaded
+  // wait for Marketo, then apply cookie fallback if needed, should run AFTER marketo has loaded
   (function waitForMkto(maxMs = 10000, step = 200) {
     const ready = !!(window.MktoForms2 && typeof MktoForms2.whenReady === 'function');
     if (ready) {
