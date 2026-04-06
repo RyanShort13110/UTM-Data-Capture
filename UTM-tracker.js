@@ -5,7 +5,7 @@ The problem:
 
 2) If the user clicks around before submitting a form, that data is lost, unless we store it
 
-3) Can’t store data without consent, because of CookieYes, would be very bad
+3) Can’t store data without consent, would be very bad
 
 4) The form (Marketo) is embedded and not native to WordPress, so it must be accessed via JS
 
