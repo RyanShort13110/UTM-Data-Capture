@@ -40,6 +40,7 @@ Cookie Policy page description:
   const COOKIE_PATH = '/';
   const COOKIE_DOMAIN = ''; // add domain if planning on using for multiple domains or cross-subdomain
 
+  // this assumes all forms use the same field names for UTMs
   const UTM_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content'];
   const FIELD_NAMES = {
     utm_source: ['utm_source', 'mkto_UTM_Source__c'],
