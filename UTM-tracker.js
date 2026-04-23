@@ -172,7 +172,7 @@ Cookie Policy page description:
     const ready = !!(window.MktoForms2 && typeof MktoForms2.whenReady === 'function');
     if (ready) {
       MktoForms2.whenReady(function (form) {
-        // debug what fields Marketo exposes
+        // debug which fields Marketo exposes
         // try { console.log('[Mkto] keys:', Object.keys(form.getValues())); } catch (e) {}
         applyCookieUtmsToForm(form);
       });
