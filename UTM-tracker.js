@@ -112,6 +112,7 @@ Cookie Policy page description:
 
   // cookie helpers
   // 'k' means 'key', 'v' means 'value'
+  // Function that controls storing of UTM values
   function saveUtms(utms) {
     try {
       Object.entries(utms).forEach(([k, v]) => {
